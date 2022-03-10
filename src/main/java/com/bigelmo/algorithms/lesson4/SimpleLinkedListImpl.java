@@ -58,6 +58,22 @@ public class SimpleLinkedListImpl<E> implements LinkedList<E>, Iterable<E> {
 
         return true;
     }
+    // 3. Реализовать метод insert.
+    // Не совсем понял задачу, поэтому сделал метод, вставляющий элемент следом за указанным
+    public boolean insertAfter(E target, E value) {
+        Node<E> prev;
+        Node<E> current = first;
+
+        while (current != null) {
+            if (current.item.equals(target)) {
+                prev = current;
+                prev.next = new Node<>(value, current.next);
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
+    }
 
     private Node<E> indexOf(E value) {
         Node<E> current = first;
@@ -116,10 +132,31 @@ public class SimpleLinkedListImpl<E> implements LinkedList<E>, Iterable<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return null/*new ListIterator<>()*/;
+        return new ListIterator();
     }
+    // 2. Реализовать итератор
+    private class ListIterator implements Iterator<E> {
 
-    private class ListIterator<E> /*implements Iterator<E>*/ {
+        private Node<E> current;
 
+        private ListIterator() {
+            this.reset();
+        }
+
+        private void reset() {
+            current = first;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return (current != null);
+        }
+
+        @Override
+        public E next() {
+            E item = current.item;
+            current = current.next;
+            return item;
+        }
     }
 }

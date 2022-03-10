@@ -9,7 +9,25 @@ public class TestMain4 {
     public static void main(String[] args) {
 //        testLinkedList();
 //        testHomeWork();
-        testIterator();
+//        testIterator();
+        testInsertAt();
+    }
+
+    private static void testInsertAt() {
+
+        SimpleLinkedListImpl<Integer> linkedList = new SimpleLinkedListImpl<>();
+
+        linkedList.insertFirst(1);
+        linkedList.insertFirst(2);
+        linkedList.insertFirst(3);
+        linkedList.insertFirst(4);
+        linkedList.insertFirst(5);
+
+        linkedList.display();
+
+        linkedList.insertAfter(3, 44);
+
+        linkedList.display();
     }
 
     private static void testLinkedList() {
@@ -43,10 +61,20 @@ public class TestMain4 {
 
     }
 
+    // 2. Реализовать итератор
     private static void testHomeWork() {
         //ДОЛЖНО РАБОТАТЬ!
 
         SimpleLinkedListImpl<Integer> linkedList = new SimpleLinkedListImpl<>();
+
+        linkedList.insertFirst(1);
+        linkedList.insertFirst(2);
+        linkedList.insertFirst(3);
+        linkedList.insertFirst(4);
+        linkedList.insertFirst(5);
+        linkedList.insertFirst(6);
+        linkedList.insertFirst(7);
+        linkedList.insertFirst(8);
 
         for (Integer value : linkedList) {
             System.out.println("value: " + value);
