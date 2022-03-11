@@ -1,5 +1,8 @@
 package com.bigelmo.algorithms.lesson4;
 
+import com.bigelmo.algorithms.lesson4.deque.Deque;
+import com.bigelmo.algorithms.lesson4.deque.LinkedDeque;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
@@ -10,7 +13,27 @@ public class TestMain4 {
 //        testLinkedList();
 //        testHomeWork();
 //        testIterator();
-        testInsertAt();
+//        testInsertAt();
+        testLinkedDeque();
+    }
+
+    // Задание 1. реализация Deque
+    private static void testLinkedDeque() {
+        Deque<Integer> myDeque = new LinkedDeque<>();
+
+        myDeque.insert(1);
+        myDeque.insert(2);
+        myDeque.insert(3);
+        myDeque.insert(4);
+        myDeque.insert(5);
+        myDeque.display();
+        myDeque.remove();
+        myDeque.remove();
+        myDeque.remove();
+        myDeque.display();
+        myDeque.insertRight(6);
+        myDeque.insertLeft(7);
+        myDeque.display();
     }
 
     private static void testInsertAt() {
