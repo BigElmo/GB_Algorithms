@@ -1,34 +1,29 @@
 package com.bigelmo.algorithms.lesson6;
 
+import java.util.Random;
+
 public class Test {
     public static void main(String[] args) {
+        int countBalanced = 0;
+        int countTotal = 100;
 
-        Tree<Integer> tree = new TreeImpl<>();
+        Random random = new Random();
 
-        tree.add(60);
-        tree.add(50);
-        tree.add(66);
-        tree.add(40);
-        tree.add(55);
-        tree.add(70);
-        tree.add(31);
-        tree.add(45);
-        tree.add(42);
-        tree.add(43);
-        tree.add(69);
-        tree.add(67);
-        tree.add(68);
-        tree.add(81);
+        for (int i = 0; i < countTotal; i++) {
+            Tree<Integer> tree = new TreeImpl<>();
 
-        tree.display();
+            while (tree.height(tree.getRoot()) <= 4) {
+                tree.add(random.nextInt(50) - 25);
+            }
 
-//        tree.remove(40);
+            if (tree.isBalanced(tree.getRoot())) {
+                countBalanced += 1;
+            }
 
-//        tree.display();
-//
-        tree.traverse(Tree.TraversMode.IN_ORDER);
-        tree.traverse(Tree.TraversMode.PRE_ORDER);
-        tree.traverse(Tree.TraversMode.POST_ORDER);
+            tree.display();
+        }
 
+        System.out.println("Count of balanced trees: " + countBalanced);
+        System.out.println("Total trees: " + countTotal);
     }
 }
