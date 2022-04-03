@@ -257,4 +257,19 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E>{
         postOrder(current.getRightChild());
         System.out.print(current.getValue() + " ");
     }
+
+    public boolean isBalanced(Node<E> node) {
+        return (node == null) ||
+                isBalanced(node.getLeftChild()) &&
+                        isBalanced(node.getRightChild()) &&
+                        Math.abs(height(node.getLeftChild()) - height(node.getRightChild())) <= 1;
+    }
+
+    public int height(Node<E> node) {
+        return node == null ? 0 : 1 + Math.max(height(node.getLeftChild()), height(node.getRightChild()));
+    }
+
+    public Node<E> getRoot() {
+        return root;
+    }
 }
