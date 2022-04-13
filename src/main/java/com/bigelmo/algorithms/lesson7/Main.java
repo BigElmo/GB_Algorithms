@@ -2,27 +2,39 @@ package com.bigelmo.algorithms.lesson7;
 
 public class Main {
     public static void main(String[] args) {
-//        testGraph();
+        testGraph();
 //        testDfs();
-        testBfs();
+//        testBfs();
     }
 
     private static void testGraph() {
 
-        Graph graph = new GraphImpl(7);
+        Graph graph = new GraphImpl(10);
 
-        graph.addVertex("A");
-        graph.addVertex("B");
-        graph.addVertex("C");
-        graph.addVertex("D");
+        graph.addVertex("Москва");
+        graph.addVertex("Тула");
+        graph.addVertex("Рязань");
+        graph.addVertex("Калуга");
+        graph.addVertex("Липецк");
+        graph.addVertex("Тамбов");
+        graph.addVertex("Орёл");
+        graph.addVertex("Саратов");
+        graph.addVertex("Курск");
+        graph.addVertex("Воронеж");
 
-        graph.addEdge("A", "B", "C");
-        graph.addEdge("B", "C", "D");
-        graph.addEdge("C", "A", "B", "D");
-        graph.addEdge("D", "B", "C");
+        graph.addEdge("Москва", "Тула", 184);
+        graph.addEdge("Москва", "Рязань", 201);
+        graph.addEdge("Москва", "Калуга", 160);
+        graph.addEdge("Тула", "Липецк", 295);
+        graph.addEdge("Рязань", "Тамбов", 291);
+        graph.addEdge("Калуга", "Орёл", 210);
+        graph.addEdge("Тамбов", "Саратов", 384);
+        graph.addEdge("Орёл", "Курск", 172);
+        graph.addEdge("Липецк", "Воронеж", 134);
+        graph.addEdge("Саратов", "Воронеж", 516);
+        graph.addEdge("Курск", "Воронеж", 222);
 
-        System.out.println("Size of graph is " + graph.getSize());
-        graph.display();
+        graph.findShortestWay("Москва", "Воронеж");
     }
 
     private static void testDfs() {

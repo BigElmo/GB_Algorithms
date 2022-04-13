@@ -6,10 +6,13 @@ public interface Graph {
 
     boolean addEdge(String startLabel, String secondLabel, String... others);
     boolean addEdge(String startLabel, String secondLabel);
+    boolean addEdge(String startLabel, String secondLabel, int distance);
 
     int getSize();
 
     void display();
+
+    void findShortestWay(String startLabel, String endLabel);
 
     /**
      * англ. Depth-first search, DFS

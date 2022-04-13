@@ -6,10 +6,12 @@ public class GraphImpl implements Graph{
 
     private final List<Vertex> vertexList;
     private final boolean[][] adjMatrix;
+    private final int[][] adjMatrixWeighed;
 
     public GraphImpl(int maxVertexCount) {
         this.vertexList = new ArrayList<>(maxVertexCount);
         this.adjMatrix = new boolean[maxVertexCount][maxVertexCount];
+        this.adjMatrixWeighed = new int[maxVertexCount][maxVertexCount];
     }
 
     @Override
@@ -28,6 +30,21 @@ public class GraphImpl implements Graph{
 
         adjMatrix[startIndex][endIndex] = true; ////////////!!!!
 //        adjMatrix[endIndex][startIndex] = true; ////////////!!!!
+
+        return true;
+    }
+
+    @Override
+    public boolean addEdge(String startLabel, String secondLabel, int distance) {
+        int startIndex = indexOf(startLabel);
+        int endIndex = indexOf(secondLabel);
+
+        if (startIndex == -1 || endIndex == -1) {
+            return false;
+        }
+
+        adjMatrixWeighed[startIndex][endIndex] = distance;
+        adjMatrixWeighed[endIndex][startIndex] = distance;
 
         return true;
     }
@@ -60,6 +77,66 @@ public class GraphImpl implements Graph{
     @Override
     public void display() {
         System.out.println(this);
+    }
+
+    @Override
+    public void findShortestWay(String startLabel, String endLabel) {
+        int startIndex = indexOf(startLabel);
+        int finishIndex = indexOf(endLabel);
+        if (startIndex == -1) {
+            System.out.println("Label not found: " + startLabel);
+        }
+        if (finishIndex == -1) {
+            System.out.println("Label not found: " + endLabel);
+        }
+        System.out.println("Available routes from " + startLabel + " to " + endLabel + ":");
+
+        List<Vertex> roadMap = new ArrayList<>();
+        int distance = 0;
+
+        Stack<Vertex> stack = new Stack<>();
+        Vertex vertex = vertexList.get(startIndex);
+
+        visitVertex(stack, vertex);
+        while (!stack.isEmpty()) {
+            vertex = getNearUnvisitedVertex(stack.peek());
+            if (vertex != null) {
+                if (vertex.equals(vertexList.get(finishIndex))) {
+                    System.out.println(stack);
+                    if (distance == 0) {
+                        roadMap.addAll(stack);
+                        roadMap.add(vertex);
+                        distance = getDistance(roadMap);
+                    } else {
+                        List<Vertex> temp = new ArrayList<>(stack);
+                        temp.add(vertex);
+                        if (getDistance(temp) < distance) {
+                            roadMap = temp;
+                            distance = getDistance(roadMap);
+                        }
+                    }
+                    stack.pop();
+                } else {
+                    visitVertex(stack, vertex);
+                }
+            } else {
+                stack.pop();
+            }
+        }
+        System.out.println("Shortest route is: ");
+        System.out.println(roadMap);
+        System.out.println();
+        System.out.println("Distance: " + distance);
+    }
+
+    private int getDistance(List<Vertex> roadMap) {
+        int result = 0;
+        for (int i = 0; i < roadMap.size() - 1; i++) {
+            int a = indexOf(roadMap.get(i).getLabel());
+            int b = indexOf(roadMap.get(i+1).getLabel());
+            result += adjMatrixWeighed[a][b];
+        }
+        return result;
     }
 
     @Override
@@ -104,7 +181,7 @@ public class GraphImpl implements Graph{
         int currentIndex = vertexList.indexOf(vertex);
 
         for (int i = 0; i < getSize(); i++) {
-            if (adjMatrix[currentIndex][i] && !vertexList.get(i).isVisited()) {
+            if (adjMatrixWeighed[currentIndex][i] > 0 && !vertexList.get(i).isVisited()) {
                 return vertexList.get(i);
             }
         }
@@ -113,14 +190,14 @@ public class GraphImpl implements Graph{
     }
 
     private void visitVertex(Stack<Vertex> stack, Vertex vertex) {
-        System.out.println(vertex.getLabel() + " ");
+//        System.out.println(vertex.getLabel() + " ");
         stack.push(vertex);
         vertex.setIsVisited(true);
     }
 
-    private void visitVertex(Queue<Vertex> stack, Vertex vertex) {
+    private void visitVertex(Queue<Vertex> queue, Vertex vertex) {
         System.out.println(vertex.getLabel() + " ");
-        stack.add(vertex);
+        queue.add(vertex);
         vertex.setIsVisited(true);
     }
 
@@ -132,16 +209,16 @@ public class GraphImpl implements Graph{
             throw new IllegalArgumentException("неверная вершина " + startLabel);
         }
 
-        Queue<Vertex> stack = new LinkedList<>();
+        Queue<Vertex> queue = new LinkedList<>();
         Vertex vertex = vertexList.get(startIndex);
 
-        visitVertex(stack, vertex);
-        while (!stack.isEmpty()) {
-            vertex = getNearUnvisitedVertex(stack.peek());
+        visitVertex(queue, vertex);
+        while (!queue.isEmpty()) {
+            vertex = getNearUnvisitedVertex(queue.peek());
             if (vertex != null) {
-                visitVertex(stack, vertex);
+                visitVertex(queue, vertex);
             } else {
-                stack.remove();
+                queue.remove();
             }
         }
     }
