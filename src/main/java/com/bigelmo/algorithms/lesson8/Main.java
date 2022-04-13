@@ -4,7 +4,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        HashTable<Product, Integer> hashTable = new HashTableImpl<>(5);
+        HashTable<Product, Integer> hashTable = new MyHashTable<>(4);
 
         hashTable.put(new Product(1, "Orange"), 150); //1
         hashTable.put(new Product(77, "Banana"), 100); //7
